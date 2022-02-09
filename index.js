@@ -192,7 +192,6 @@ newInputButton.addEventListener("click", () => {
     form.inputs = inputs
 
     renderInputs(form)
-    alert(JSON.stringify(forms))
     // forms[forms.indexOf(oldForm)] = form
 })
 
@@ -204,12 +203,13 @@ setTimeout(() => {
             window.localStorage.setItem("forms", JSON.stringify([]))
         } */
 
-        forms = JSON.parse(window.localStorage.getItem("forms") )|| []
+        forms = JSON.parse(window.localStorage.getItem("forms") ) || [] // set forms to the saved variable
         // document.write(forms) // debug the forms variable
     }
 }, 100)
 
 setInterval(() => {
+    // update the localStorage to make sure the forms variable is correct
     if (!window.localStorage.getItem("currentFormI")) {
         window.localStorage.setItem("currentFormI", 0)
     }
@@ -220,11 +220,9 @@ setInterval(() => {
 
 // load forms
 setTimeout(() => {
-    alert(window.localStorage.getItem("forms"))
-    alert(JSON.stringify(forms))
+    // on first load of page
     JSON.parse(window.localStorage.getItem("forms")).forEach((form) => {
         const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
-        alert(JSON.stringify(form))
         document.getElementById('forms').insertAdjacentHTML("beforeend", `<div class="card w-full">
         <div class="header flex gap-2 w-full" style="justify-content: space-between;">
             <div class="grid place-items-center">
@@ -234,6 +232,10 @@ setTimeout(() => {
             <button class="btn__open w-60" id="form:${form.id}" onclick="setForm(${formNumber})">Edit Form</button>
         </div>
     </div>`)
+
+        if (formNumber === window.localStorage.getItem("currentFormI")) {
+            renderInputs(form) // this is the current form, so load its inputs onto the page
+        }
     })
 }, 100);
 
