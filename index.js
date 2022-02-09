@@ -187,7 +187,7 @@ newInputButton.addEventListener("click", () => {
 
     const inputs = addInputs(form)
     for (let newInput of inputs) {
-        alert(JSON.stringify(newInput))
+        if (inputs.indexOf(newInput) === inputs[inputs.length - 1]) { break } // if it is the final object
         form.inputs.push(newInput)
     }
 
