@@ -212,8 +212,8 @@ setInterval(() => {
 }, 100)
 
 // load forms
-for (let form of JSON.parse(window.localStorage("forms"))) {
-    const formNumber = JSON.parse(window.localStorage("forms")).indexOf(form)
+for (let form of JSON.parse(window.localStorage.getItem("forms"))) {
+    const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
     document.getElementById('forms').insertAdjacentHTML("beforeend", `<div class="card w-full">
     <div class="header flex gap-2 w-full" style="justify-content: space-between;">
         <div class="grid place-items-center">
