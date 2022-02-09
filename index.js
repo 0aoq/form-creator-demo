@@ -217,21 +217,23 @@ setInterval(() => {
 }, 100)
 
 // load forms
-alert(window.localStorage.getItem("forms"))
-alert(JSON.stringify(forms))
-JSON.parse(window.localStorage.getItem("forms")).forEach((form) => {
-    const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
-    alert(JSON.stringify(form))
-    document.getElementById('forms').insertAdjacentHTML("beforeend", `<div class="card w-full">
-    <div class="header flex gap-2 w-full" style="justify-content: space-between;">
-        <div class="grid place-items-center">
-            <h4 style="margin: 0;" class="font-normal" id="${form.id}__name">${form.title}</h4>
-        </div>
+setTimeout(() => {
+    alert(window.localStorage.getItem("forms"))
+    alert(JSON.stringify(forms))
+    JSON.parse(window.localStorage.getItem("forms")).forEach((form) => {
+        const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
+        alert(JSON.stringify(form))
+        document.getElementById('forms').insertAdjacentHTML("beforeend", `<div class="card w-full">
+        <div class="header flex gap-2 w-full" style="justify-content: space-between;">
+            <div class="grid place-items-center">
+                <h4 style="margin: 0;" class="font-normal" id="${form.id}__name">${form.title}</h4>
+            </div>
 
-        <button class="btn__open w-60" id="form:${form.id}" onclick="setForm(${formNumber})">Edit Form</button>
-    </div>
-</div>`)
-})
+            <button class="btn__open w-60" id="form:${form.id}" onclick="setForm(${formNumber})">Edit Form</button>
+        </div>
+    </div>`)
+    })
+}, 100);
 
 function setForm(number) {
     // set the current form number and refresh the page
