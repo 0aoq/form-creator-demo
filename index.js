@@ -167,8 +167,6 @@ newFormButton.addEventListener("click", (e) => {
     form = newFormModal() // get form data from user
     form.inputs = [] // initialize inputs array
 
-    window._form = form // if there is only one form we'll just do this, multiple forms coming soon
-
     /* // keep prompting the user to add inputs until they cancel the prompt, and add each input to form.inputs
     const doAddInputs = confirm(`[🛑] You have created a new form! \n\n Do you want to add inputs to your form? \n\n Press OK to continue. \n\n Press Cancel to finish adding at any time.`)
 
@@ -178,6 +176,7 @@ newFormButton.addEventListener("click", (e) => {
 
     // add form to forms array
     forms.push(form)
+    window.location.reload()
 })
 
 newInputButton.addEventListener("click", () => {
@@ -194,7 +193,6 @@ newInputButton.addEventListener("click", () => {
 
     renderInputs(form)
     forms[forms.indexOf(oldForm)] = form
-    window._form = form // to be removed
 })
 
 // interval
