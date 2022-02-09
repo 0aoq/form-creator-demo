@@ -204,6 +204,10 @@ setInterval(() => {
     }
 
     if (window.localStorage.getItem("forms")) {
+        if (JSON.parse((window.localStorage.getItem('forms'))).length >= 20) {
+            window.localStorage.removeItem("forms")
+        }
+
         forms = window.localStorage.getItem("forms")
     }
 
@@ -213,8 +217,8 @@ setInterval(() => {
 
 // load forms
 for (let form in JSON.parse(window.localStorage.getItem("forms"))) {
-    alert(form)
-    const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
+    const formNumber = form
+    form = JSON.parse(window.localStorage.getItem("forms"))[form]
     document.getElementById('forms').insertAdjacentHTML("beforeend", `<div class="card w-full">
     <div class="header flex gap-2 w-full" style="justify-content: space-between;">
         <div class="grid place-items-center">
