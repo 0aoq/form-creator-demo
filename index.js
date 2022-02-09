@@ -5,6 +5,51 @@ function generateInputError(name) {
     return `[🛑] You must enter an input ${name}. Aborted process.`
 }
 
+// inputs
+function addInputs(form) {
+    while (true) {
+        const input = newInputModal( /* form.id, form.inputs.length */ ) // get input data from user
+        if (input.id === null) { break } // user cancelled input creation
+        form.inputs.push(input) // add input to form
+    }
+
+    return form.inputs
+}
+
+function renderInputs(form) {
+     // render the inputs for the form
+     for (let input of form.inputs) {
+        formView.insertAdjacentHTML("beforeend", `<div class="card w-full">
+        <div class="header flex gap-2 w-full" style="justify-content: space-between;">
+            <div class="grid place-items-center">
+                <h4 style="margin: 0;" class="font-normal" id="${input.id}__name">${input.name}</h4>
+            </div>
+
+            <button class="btn__open w-60" id="form:${form.id},input:${input.id}">Open Options</button>
+        </div>
+    </div>`)
+
+        // link button
+        document.getElementById(`form:${form.id},input:${input.id}`).addEventListener("click", () => {
+            const newInfo = editInputModal()
+            let oldInput = input
+
+            // check if empty strings
+            if (newInfo.name === "") { input.name = newInfo.name }
+            if (newInfo.type === "") { input.type = newInfo.type }
+            // if (newInfo.id === "") { input.id = newInfo.id }
+            if (newInfo.placeholder === "") { input.placeholder = newInfo.placeholder }
+
+            // rerender
+            document.getElementById(`${input.id}__name`).innerText = newInfo.name
+            // document.getElementById(`${input.id}__name`).id = `${newInput.id}__name`
+
+            // change json values for input
+            forms.inputs[forms.inputs.indexOf(oldInput)] = newInfo
+        })
+   }
+}
+
 // handle modals
 
 function editInputModal() {
@@ -108,6 +153,7 @@ function newInputModal(formid, id) {
 
 // handle new form creation
 const newFormButton = document.getElementById("newform")
+const newInputButton = document.getElementById("addinput")
 
 newFormButton.addEventListener("click", (e) => {
     e.preventDefault()
@@ -121,49 +167,28 @@ newFormButton.addEventListener("click", (e) => {
     form = newFormModal() // get form data from user
     form.inputs = [] // initialize inputs array
 
+    window._form = form // if there is only one form we'll just do this, multiple forms coming soon
+
     // keep prompting the user to add inputs until they cancel the prompt, and add each input to form.inputs
     const doAddInputs = confirm(`[🛑] You have created a new form! \n\n Do you want to add inputs to your form? \n\n Press OK to continue. \n\n Press Cancel to finish adding at any time.`)
 
     if (doAddInputs) {
-        while (true) {
-            const input = newInputModal( /* form.id, form.inputs.length */ ) // get input data from user
-            if (input.id === null) { break } // user cancelled input creation
-            form.inputs.push(input) // add input to form
-        }
+        form.inputs = addInputs(form)
     }
 
     // add form to forms array
     forms.push(form)
+    renderInputs(form)
+})
 
-    // render the inputs for the form
-    for (let input of form.inputs) {
-        formView.insertAdjacentHTML("beforeend", `<div class="card w-full">
-        <div class="header flex gap-2 w-full" style="justify-content: space-between;">
-            <div class="grid place-items-center">
-                <h4 style="margin: 0;" class="font-normal" id="${input.id}__name">${input.name}</h4>
-            </div>
+newInputButton.addEventListener("click", () => {
+    let form = window._form
+    let oldForm = form
+    for (let newInput of addInputs(form)) {
+        form.inputs.push(newInput)
+    }
 
-            <button class="btn__open w-60" id="form:${form.id},input:${input.id}">Open Options</button>
-        </div>
-    </div>`)
-
-        // link button
-        document.getElementById(`form:${form.id},input:${input.id}`).addEventListener("click", () => {
-            const newInfo = editInputModal()
-            let oldInput = input
-
-            // check if empty strings
-            if (newInfo.name === "") { input.name = newInfo.name }
-            if (newInfo.type === "") { input.type = newInfo.type }
-            // if (newInfo.id === "") { input.id = newInfo.id }
-            if (newInfo.placeholder === "") { input.placeholder = newInfo.placeholder }
-
-            // rerender
-            document.getElementById(`${input.id}__name`).innerText = newInfo.name
-            // document.getElementById(`${input.id}__name`).id = `${newInput.id}__name`
-
-            // change json values for input
-            forms.inputs[forms.inputs.indexOf(oldInput)] = newInfo
-        })
-   }
+    renderInputs(form)
+    forms[forms.indexOf(oldForm)] = form
+    window._form = form // to be removed
 })
