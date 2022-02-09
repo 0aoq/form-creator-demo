@@ -193,6 +193,7 @@ newInputButton.addEventListener("click", () => {
 
     renderInputs(form)
     forms[forms.indexOf(oldForm)] = form
+    alert(JSON.stringify(forms[forms.indexOf(oldForm)]))
 })
 
 // interval
