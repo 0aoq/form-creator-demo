@@ -186,10 +186,12 @@ newInputButton.addEventListener("click", () => {
     let oldForm = form
 
     const inputs = addInputs(form)
-    for (let newInput of inputs) {
-        if (inputs.indexOf(newInput) === inputs[inputs.length - 1]) { break } // if it is the final object
+    /* for (let newInput of inputs) {
+        // if (inputs.indexOf(newInput) === inputs[inputs.length - 1]) { break } // if it is the final object
         form.inputs.push(newInput)
-    }
+    } */
+
+    form.inputs = inputs
 
     renderInputs(form)
     forms[forms.indexOf(oldForm)] = form
