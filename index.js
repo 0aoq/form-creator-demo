@@ -205,6 +205,7 @@ setInterval(() => {
 
     if (window.localStorage.getItem("forms")) {
         if (JSON.parse((window.localStorage.getItem('forms'))).length >= 20) {
+            alert("You have too many forms. They will be removed when you click OK.")
             window.localStorage.removeItem("forms")
         }
 
@@ -218,6 +219,7 @@ setInterval(() => {
 // load forms
 JSON.parse(window.localStorage.getItem("forms")).forEach((form) => {
     const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
+    alert(JSON.stringify(form))
     document.getElementById('forms').insertAdjacentHTML("beforeend", `<div class="card w-full">
     <div class="header flex gap-2 w-full" style="justify-content: space-between;">
         <div class="grid place-items-center">
