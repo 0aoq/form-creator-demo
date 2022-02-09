@@ -159,8 +159,8 @@ newFormButton.addEventListener("click", (e) => {
             if (newInfo.placeholder === "") { input.placeholder = newInfo.placeholder }
 
             // rerender
-            document.getElementById(`${input.name}__name`).innerText = newInfo.name
-            document.getElementById(`${input.name}__name`).id = `${newInput.name}__name`
+            document.getElementById(`${input.id}__name`).innerText = newInfo.id
+            // document.getElementById(`${input.id}__name`).id = `${newInput.id}__name`
 
             // change json values for input
             forms.inputs[forms.inputs.indexOf(oldInput)] = newInfo
