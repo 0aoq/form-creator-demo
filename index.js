@@ -1,6 +1,48 @@
+const formView = document.getElementById("formview")
 let forms = []
 
+function generateInputError(name) {
+    return `[🛑] You must enter an input ${name}. Aborted process.`
+}
+
 // handle modals
+
+function editInputModal() {
+    let input = {
+        name: "",
+        type: "",
+        id: "",
+        placeholder: ""
+    }
+
+    // edit each piece of input information, leave blank to not edit the information
+    const pgs = 4
+
+    alert(`[🛑] Welcome to the edit input modal! \n\n This modal will guide you through the process of editting an existing input. \n\n You will be asked to fill out a few questions to get started. \n\n Press OK to continue.`)
+
+    // input name
+    const inputName = prompt(`[1/${pgs}] What is the name of the input?`)
+    if (inputName === null || inputName === "") { return input.name = "" }
+    else { input.name = inputName }
+    
+    // input type
+    const inputType = prompt(`[2/${pgs}] What is the type of the input?`)
+    if (inputType === null || inputType === "") { return input.type = "" }
+    else { input.type = inputType }
+
+    // input id
+    /* const inputid = prompt(`[3/${pgs}] What is the ID of the input?`)
+    if (inputid === null || inputid === "") { return input.id = "" }
+    else { input.id = inputid } */
+
+    // input placeholder
+    const inputPlaceholder = prompt(`[4/${pgs}] what is the placeholder if the input`)
+    if (inputPlaceholder === null || inputPlaceholder === "") { return input.placeholder = "" }
+    else { input.placeholder = inputPlaceholder }
+
+    // return
+    return input
+}
 
 function newFormModal() {
     // using native browser js to create a generic modal (alert, confirm, prompt)
@@ -92,4 +134,35 @@ newFormButton.addEventListener("click", (e) => {
 
     // add form to forms array
     forms.push(form)
+
+    // render the inputs for the form
+    for (let input of form.inputs) {
+        formView.insertAdjacentHTML("beforeend", `<div class="card w-full">
+        <div class="header flex gap-2 w-full" style="justify-content: space-between;">
+            <div class="grid place-items-center">
+                <h4 style="margin: 0;" class="font-normal" id="${input.id}__name">${input.name}</h4>
+            </div>
+
+            <button class="btn__open w-60" id="form:${form.id},input:${input.id}">Open Options</button>
+        </div>
+    </div>`)
+
+        // link button
+        document.getElementById(`form:${form.id},input:${input.id}`).addEventListener("click", () => {
+            const newInfo = editInputModal()
+            let oldInput = input
+
+            // check if empty strings
+            if (newInfo.name === "") { input.name = newInfo.name }
+            if (newInfo.type === "") { input.type = newInfo.type }
+            // if (newInfo.id === "") { input.id = newInfo.id }
+            if (newInfo.placeholder === "") { input.placeholder = newInfo.placeholder }
+
+            // rerender
+            document.getElementById(`${newInfo.name}__name`).innerText = newInfo.name
+
+            // change json values for input
+            forms.inputs[forms.inputs.indexOf(oldInput)] = newInfo
+        })
+   }
 })
