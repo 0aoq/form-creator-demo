@@ -206,7 +206,7 @@ setInterval(() => {
     if (window.localStorage.getItem("forms") !== "null") {
         if (JSON.parse((window.localStorage.getItem('forms'))).length <= 20) {
             alert("You have too many forms. They will be removed when you click OK.")
-            window.localStorage.setItem("forms", "[]")
+            window.localStorage.setItem("forms", JSON.stringify([]))
         }
 
         forms = window.localStorage.getItem("forms")
@@ -217,7 +217,6 @@ setInterval(() => {
 }, 100)
 
 // load forms
-alert(window.localStorage.getItem("forms"))
 JSON.parse(window.localStorage.getItem("forms")).forEach((form) => {
     const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
     alert(JSON.stringify(form))
