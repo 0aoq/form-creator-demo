@@ -150,7 +150,6 @@ newFormButton.addEventListener("click", (e) => {
         // link button
         document.getElementById(`form:${form.id},input:${input.id}`).addEventListener("click", () => {
             const newInfo = editInputModal()
-            alert(JSON.stringify(newInfo))
             let oldInput = input
 
             // check if empty strings
@@ -160,7 +159,8 @@ newFormButton.addEventListener("click", (e) => {
             if (newInfo.placeholder === "") { input.placeholder = newInfo.placeholder }
 
             // rerender
-            document.getElementById(`${newInfo.name}__name`).innerText = newInfo.name
+            document.getElementById(`${input.name}__name`).innerText = newInfo.name
+            document.getElementById(`${input.name}__name`).id = `${newInput.name}__name`
 
             // change json values for input
             forms.inputs[forms.inputs.indexOf(oldInput)] = newInfo
