@@ -186,6 +186,7 @@ newInputButton.addEventListener("click", () => {
     let oldForm = form
 
     const inputs = addInputs(form)
+    alert(JSON.stringify(inputs))
     for (let newInput of inputs) {
         form.inputs.push(newInput)
     }
