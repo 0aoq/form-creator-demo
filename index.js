@@ -150,6 +150,7 @@ newFormButton.addEventListener("click", (e) => {
         // link button
         document.getElementById(`form:${form.id},input:${input.id}`).addEventListener("click", () => {
             const newInfo = editInputModal()
+            alert(JSON.stringify(newInfo))
             let oldInput = input
 
             // check if empty strings
