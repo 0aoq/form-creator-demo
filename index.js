@@ -212,7 +212,8 @@ setInterval(() => {
 }, 100)
 
 // load forms
-for (let form of JSON.parse(window.localStorage.getItem("forms"))) {
+for (let form in JSON.parse(window.localStorage.getItem("forms"))) {
+    alert(form)
     const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
     document.getElementById('forms').insertAdjacentHTML("beforeend", `<div class="card w-full">
     <div class="header flex gap-2 w-full" style="justify-content: space-between;">
