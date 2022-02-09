@@ -203,7 +203,7 @@ setInterval(() => {
         window.localStorage.setItem("currentFormI", 0)
     }
 
-    if (window.localStorage.getItem("forms") !== null) {
+    if (window.localStorage.getItem("forms") !== "null") {
         if (JSON.parse((window.localStorage.getItem('forms'))).length >= 20) {
             alert("You have too many forms. They will be removed when you click OK.")
             window.localStorage.removeItem("forms")
@@ -217,7 +217,7 @@ setInterval(() => {
 }, 100)
 
 // load forms
-alert(window.localStorage.getItem("forms") === null)
+alert(window.localStorage.getItem("forms"))
 JSON.parse(window.localStorage.getItem("forms")).forEach((form) => {
     const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
     alert(JSON.stringify(form))
