@@ -17,15 +17,21 @@ function addInputs(form) {
 }
 
 function renderInputs(form) {
-     // render the inputs for the form
-     for (let input of form.inputs) {
+    formView.innerHTML = "" // clear form view
+
+    // render the inputs for the form
+    for (let input of form.inputs) {
         formView.insertAdjacentHTML("beforeend", `<div class="card w-full">
         <div class="header flex gap-2 w-full" style="justify-content: space-between;">
             <div class="grid place-items-center">
                 <h4 style="margin: 0;" class="font-normal" id="${input.id}__name">${input.name}</h4>
             </div>
 
-            <button class="btn__open w-60" id="form:${form.id},input:${input.id}">Open Options</button>
+            <div class="flex gap-2">
+                <!-- form options -->
+                <button class="btn__open" id="form:${form.id},input:${input.id}" style="width: 10rem;">Edit</button>
+                <button class="btn__open w-16" onclick="">Delete</button>
+            </div>
         </div>
     </div>`)
 
@@ -35,19 +41,24 @@ function renderInputs(form) {
             let oldInput = input
 
             // check if empty strings
-            if (newInfo.name === "") { input.name = newInfo.name }
-            if (newInfo.type === "") { input.type = newInfo.type }
-            // if (newInfo.id === "") { input.id = newInfo.id }
-            if (newInfo.placeholder === "") { input.placeholder = newInfo.placeholder }
+            if (newInfo.name === "" || newInfo.name === null) { newInfo.name = input.name }
+            if (newInfo.type === "" || newInfo.type === null) { newInfo.type = input.type }
+            if (newInfo.placeholder === "" || newInfo.placeholder === null) { input.placeholder = newInfo.placeholder }
 
             // rerender
             document.getElementById(`${input.id}__name`).innerText = newInfo.name
-            // document.getElementById(`${input.id}__name`).id = `${newInput.id}__name`
 
             // change json values for input
-            forms.inputs[forms.inputs.indexOf(oldInput)] = newInfo
+            newInfo.id = input.id // id is not changed
+            form.inputs[form.inputs.indexOf(oldInput)] = newInfo
+            forms[forms.indexOf(form)] = form // update form
+
+            setTimeout(() => {
+                // wait 100ms to reload the page because we need to wait for the local storage to update
+                window.location.reload()
+            }, 100);
         })
-   }
+    }
 }
 
 // handle modals
@@ -61,29 +72,21 @@ function editInputModal() {
     }
 
     // edit each piece of input information, leave blank to not edit the information
-    const pgs = 4
+    const pgs = 3
 
     alert(`[🛑] Welcome to the edit input modal! \n\n This modal will guide you through the process of editting an existing input. \n\n You will be asked to fill out a few questions to get started. \n\n Press OK to continue.`)
 
     // input name
     const inputName = prompt(`[1/${pgs}] What is the name of the input?`)
-    if (inputName === null || inputName === "") { return input.name = "" }
-    else { input.name = inputName }
-    
+    input.name = inputName
+
     // input type
     const inputType = prompt(`[2/${pgs}] What is the type of the input?`)
-    if (inputType === null || inputType === "") { return input.type = "" }
-    else { input.type = inputType }
-
-    // input id
-    /* const inputid = prompt(`[3/${pgs}] What is the ID of the input?`)
-    if (inputid === null || inputid === "") { return input.id = "" }
-    else { input.id = inputid } */
+    input.type = inputType
 
     // input placeholder
-    const inputPlaceholder = prompt(`[4/${pgs}] what is the placeholder if the input`)
-    if (inputPlaceholder === null || inputPlaceholder === "") { return input.placeholder = "" }
-    else { input.placeholder = inputPlaceholder }
+    const inputPlaceholder = prompt(`[3/${pgs}] what is the placeholder if the input`)
+    input.placeholder = inputPlaceholder
 
     // return
     return input
@@ -154,6 +157,7 @@ function newInputModal(formid, id) {
 // handle new form creation
 const newFormButton = document.getElementById("newform")
 const newInputButton = document.getElementById("addinput")
+newInputButton.style.display = "none" // hide new input button until form is created
 
 newFormButton.addEventListener("click", (e) => {
     e.preventDefault()
@@ -181,30 +185,15 @@ newFormButton.addEventListener("click", (e) => {
 
 newInputButton.addEventListener("click", () => {
     let form = window._form
-    let oldForm = form
-
     const inputs = addInputs(form)
-    /* for (let newInput of inputs) {
-        // if (inputs.indexOf(newInput) === inputs[inputs.length - 1]) { break } // if it is the final object
-        form.inputs.push(newInput)
-    } */
-
     form.inputs = inputs
-
     renderInputs(form)
-    // forms[forms.indexOf(oldForm)] = form
 })
 
 // interval
 setTimeout(() => {
     if (window.localStorage.getItem("forms") !== "null" || window.localStorage.getItem("forms") !== null) {
-        /* if (JSON.parse((window.localStorage.getItem('forms'))).length >= 50) {
-            alert("You have too many forms. They will be removed when you click OK.")
-            window.localStorage.setItem("forms", JSON.stringify([]))
-        } */
-
-        forms = JSON.parse(window.localStorage.getItem("forms") ) || [] // set forms to the saved variable
-        // document.write(forms) // debug the forms variable
+        forms = JSON.parse(window.localStorage.getItem("forms")) || [] // set forms to the saved variable
     }
 }, 100)
 
@@ -221,19 +210,25 @@ setInterval(() => {
 // load forms
 setTimeout(() => {
     // on first load of page
-    JSON.parse(window.localStorage.getItem("forms")).forEach((form) => {
-        const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
+    forms.forEach((form) => {
+        const formNumber = forms.indexOf(form)
         document.getElementById('forms').insertAdjacentHTML("beforeend", `<div class="card w-full">
         <div class="header flex gap-2 w-full" style="justify-content: space-between;">
             <div class="grid place-items-center">
                 <h4 style="margin: 0;" class="font-normal" id="${form.id}__name">${form.title}</h4>
             </div>
 
-            <button class="btn__open w-60" id="form:${form.id}" onclick="setForm(${formNumber})">Edit Form</button>
+            <div class="flex gap-2">
+                <!-- form options -->
+                <button class="btn__open" onclick="setForm(${formNumber})" style="width: 10rem;">Edit</button>
+                <button class="btn__open w-16" onclick="deleteForm(${formNumber})">Delete</button>
+                <button class="btn__open w-16" onclick="copyForm(${formNumber})">Copy</button>
+            </div>
         </div>
     </div>`)
 
-        if (formNumber === window.localStorage.getItem("currentFormI")) {
+        if (formNumber === parseFloat(window.localStorage.getItem("currentFormI"))) { // get the number of the current form
+            newInputButton.style.display = "block" // show new input button because a form is open
             renderInputs(form) // this is the current form, so load its inputs onto the page
         }
     })
@@ -243,4 +238,44 @@ function setForm(number) {
     // set the current form number and refresh the page
     window.localStorage.setItem('currentFormI', number)
     window.location.reload()
+}
+
+function deleteForm(number) {
+    // delete the form from the forms array and refresh the page
+    forms.splice(number, 1)
+
+    setTimeout(() => {
+        window.location.reload()
+    }, 100);
+}
+
+function copyForm(number) {
+    // blur the body to show that the form is being copied
+    document.body.style.filter = "blur(5px)"
+
+    // get the form and generate an html form from it
+    const form = forms[number]
+    let html = `<form id="${form.id}">\n`
+    let js = `<script>\ndocument.querySelector("form#${form.id}").addEventListener("submit", (e) => {
+    e.preventDefault()
+    
+    `
+
+    form.inputs.forEach((input) => {
+        html += `   <input type="${input.type}" id="form:${form.id},input:${input.id}" name="${input.name}" placeholder="${input.placeholder}">\n`
+        js += `    const ${input.name} = e.target.${input.name}\n   ${input.name}.value\n\n`
+    })
+
+    setTimeout(() => {
+        html += `   <button>Submit</button>
+</form>\n\n`
+        js += ` })\n</script>`
+
+        // copy the html to the clipboard using navigator.clipboard
+        navigator.clipboard.writeText(html + js) // write the html and js to the clipboard
+        alert(`[✅] The form has been copied to your clipboard!`)
+
+        // remove the blur
+        document.body.style.filter = ""
+    }, 10);
 }

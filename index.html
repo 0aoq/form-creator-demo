@@ -11,12 +11,12 @@
 </head>
 
 <body class="grid place-items-center w-full h-screen">
-    <div style="width: 36rem;">
+    <div style="width: 42rem;">
         <!-- Create new form -->
         <div class="card w-full" style="margin-bottom: 15px;">
             <div class="header flex gap-2 w-full" style="justify-content: space-between;">
                 <div class="grid place-items-center">
-                    <h2 style="margin: 0;">Forms</h2>
+                    <h3 style="margin: 0;">Forms</h3>
                 </div>
 
                 <button id="newform" class="btn w-60">Create New</button>
@@ -24,13 +24,19 @@
         </div>
 
         <!-- View all forms -->
-        <div class="card w-full flex gap-2" style="flex-direction: column;" id="forms"></div>
+        <div class="card w-full flex gap-2" style="flex-direction: column; margin-bottom: 15px;" id="forms"></div>
 
         <!-- Form view -->
-        <div class="card w-full flex gap-2" style="flex-direction: column;" id="formview">
-            <div class="header flex gap-2 w-full" style="justify-content: end;">
+        <div class="card w-full flex gap-2" style="flex-direction: column;">
+            <div class="header flex gap-2 w-full" style="justify-content: space-between;">
+                <div class="grid place-items-center">
+                    <h3 style="margin: 0;">Inputs</h3>
+                </div>
+
                 <button id="addinput" class="btn w-60">Add Inputs</button>
             </div>
+
+            <div id="formview" class="w-full flex gap-2" style="flex-direction: column;"></div>
         </div>
     </div>
 
