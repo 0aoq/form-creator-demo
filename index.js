@@ -208,7 +208,7 @@ setInterval(() => {
         } */
 
         forms = JSON.parse(window.localStorage.getItem("forms") )|| []
-        document.write(forms)
+        // document.write(forms) // debug the forms variable
     }
 
     window.localStorage.setItem("forms", JSON.stringify(forms))
