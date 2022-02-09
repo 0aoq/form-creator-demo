@@ -169,16 +169,15 @@ newFormButton.addEventListener("click", (e) => {
 
     window._form = form // if there is only one form we'll just do this, multiple forms coming soon
 
-    // keep prompting the user to add inputs until they cancel the prompt, and add each input to form.inputs
+    /* // keep prompting the user to add inputs until they cancel the prompt, and add each input to form.inputs
     const doAddInputs = confirm(`[🛑] You have created a new form! \n\n Do you want to add inputs to your form? \n\n Press OK to continue. \n\n Press Cancel to finish adding at any time.`)
 
     if (doAddInputs) {
         form.inputs = addInputs(form)
-    }
+    } */
 
     // add form to forms array
     forms.push(form)
-    renderInputs(form)
 })
 
 newInputButton.addEventListener("click", () => {
@@ -197,3 +196,37 @@ newInputButton.addEventListener("click", () => {
     forms[forms.indexOf(oldForm)] = form
     window._form = form // to be removed
 })
+
+// interval
+setInterval(() => {
+    if (!window.localStorage.getItem("currentFormI")) {
+        window.localStorage.setItem("currentFormI", 0)
+    }
+
+    if (window.localStorage.getItem("forms")) {
+        forms = window.localStorage.getItem("forms")
+    }
+
+    window.localStorage.setItem("forms", forms)
+    window._form = forms[window.localStorage.getItem("currentFormI")]
+}, 100)
+
+// load forms
+for (let form of JSON.parse(window.localStorage("forms"))) {
+    const formNumber = JSON.parse(window.localStorage("forms")).indexOf(form)
+    document.getElementById('forms').insertAdjacentHTML("beforeend", `<div class="card w-full">
+    <div class="header flex gap-2 w-full" style="justify-content: space-between;">
+        <div class="grid place-items-center">
+            <h4 style="margin: 0;" class="font-normal" id="${form.id}__name">${form.title}</h4>
+        </div>
+
+        <button class="btn__open w-60" id="form:${form.id}" onclick="setForm(${formNumber})">Edit Form</button>
+    </div>
+</div>`)
+}
+
+function setForm(number) {
+    // set the current form number and refresh the page
+    window.localStorage.setItem('currentFormI', number)
+    window.location.reload()
+}
