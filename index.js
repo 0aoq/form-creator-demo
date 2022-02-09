@@ -216,9 +216,8 @@ setInterval(() => {
 }, 100)
 
 // load forms
-for (let form in JSON.parse(window.localStorage.getItem("forms"))) {
-    const formNumber = form
-    form = JSON.parse(window.localStorage.getItem("forms"))[form]
+JSON.parse(window.localStorage.getItem("forms")).forEach((form) => {
+    const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
     document.getElementById('forms').insertAdjacentHTML("beforeend", `<div class="card w-full">
     <div class="header flex gap-2 w-full" style="justify-content: space-between;">
         <div class="grid place-items-center">
@@ -228,7 +227,7 @@ for (let form in JSON.parse(window.localStorage.getItem("forms"))) {
         <button class="btn__open w-60" id="form:${form.id}" onclick="setForm(${formNumber})">Edit Form</button>
     </div>
 </div>`)
-}
+})
 
 function setForm(number) {
     // set the current form number and refresh the page
