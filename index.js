@@ -207,7 +207,7 @@ setInterval(() => {
             window.localStorage.setItem("forms", JSON.stringify([]))
         } */
 
-        forms = window.localStorage.getItem("forms") || []
+        forms = JSON.parse(window.localStorage.getItem("forms") )|| []
         document.write(forms)
     }
 
