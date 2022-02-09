@@ -218,6 +218,7 @@ setInterval(() => {
 
 // load forms
 alert(JSON.parse(window.localStorage.getItem("forms")))
+alert(JSON.stringify(forms))
 JSON.parse(window.localStorage.getItem("forms")).forEach((form) => {
     const formNumber = JSON.parse(window.localStorage.getItem("forms")).indexOf(form)
     alert(JSON.stringify(form))
