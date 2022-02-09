@@ -184,7 +184,9 @@ newFormButton.addEventListener("click", (e) => {
 newInputButton.addEventListener("click", () => {
     let form = window._form
     let oldForm = form
-    for (let newInput of addInputs(form)) {
+
+    const inputs = addInputs(form)
+    for (let newInput of inputs) {
         form.inputs.push(newInput)
     }
 
