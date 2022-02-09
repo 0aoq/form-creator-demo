@@ -196,11 +196,7 @@ newInputButton.addEventListener("click", () => {
 })
 
 // interval
-setInterval(() => {
-    if (!window.localStorage.getItem("currentFormI")) {
-        window.localStorage.setItem("currentFormI", 0)
-    }
-
+setTimeout(() => {
     if (window.localStorage.getItem("forms") !== "null" || window.localStorage.getItem("forms") !== null) {
         /* if (JSON.parse((window.localStorage.getItem('forms'))).length >= 50) {
             alert("You have too many forms. They will be removed when you click OK.")
@@ -209,6 +205,12 @@ setInterval(() => {
 
         forms = JSON.parse(window.localStorage.getItem("forms") )|| []
         // document.write(forms) // debug the forms variable
+    }
+}, 100)
+
+setInterval(() => {
+    if (!window.localStorage.getItem("currentFormI")) {
+        window.localStorage.setItem("currentFormI", 0)
     }
 
     window.localStorage.setItem("forms", JSON.stringify(forms))
