@@ -205,6 +205,7 @@ setInterval(() => {
 
     if (window.localStorage.getItem("forms") !== "null") {
         if (JSON.parse((window.localStorage.getItem('forms'))).length >= 20) {
+            alert(JSON.parse((window.localStorage.getItem('forms'))).length)
             alert("You have too many forms. They will be removed when you click OK.")
             window.localStorage.setItem("forms", JSON.stringify([]))
         }
