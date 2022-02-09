@@ -204,12 +204,12 @@ setInterval(() => {
     }
 
     if (window.localStorage.getItem("forms") !== "null" && window.localStorage.getItem("forms") !== null) {
-        if (JSON.parse((window.localStorage.getItem('forms'))).length >= 50) {
+        /* if (JSON.parse((window.localStorage.getItem('forms'))).length >= 50) {
             alert("You have too many forms. They will be removed when you click OK.")
             window.localStorage.setItem("forms", JSON.stringify([]))
-        }
+        } */
 
-        forms = window.localStorage.getItem("forms")
+        forms = window.localStorage.getItem("forms") || []
     }
 
     window.localStorage.setItem("forms", JSON.stringify(forms))
