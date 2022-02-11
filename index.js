@@ -171,13 +171,6 @@ newFormButton.addEventListener("click", (e) => {
     form = newFormModal() // get form data from user
     form.inputs = [] // initialize inputs array
 
-    /* // keep prompting the user to add inputs until they cancel the prompt, and add each input to form.inputs
-    const doAddInputs = confirm(`[🛑] You have created a new form! \n\n Do you want to add inputs to your form? \n\n Press OK to continue. \n\n Press Cancel to finish adding at any time.`)
-
-    if (doAddInputs) {
-        form.inputs = addInputs(form)
-    } */
-
     // add form to forms array
     forms.push(form)
     window.location.reload()
@@ -278,4 +271,14 @@ function copyForm(number) {
         // remove the blur
         document.body.style.filter = ""
     }, 10);
+}
+
+function deleteInput(formid, inputid) {
+    // delete input based on formid and inputid
+    let _form = forms[formid]
+
+    if (_form) {
+        _form.inputs.splice(inputid, 1)
+        forms[formid] = _form
+    }
 }
