@@ -276,9 +276,12 @@ function copyForm(number) {
 function deleteInput(formid, inputid) {
     // delete input based on formid and inputid
     let _form = forms[formid]
-
+    alert(JSON.stringify(_form))
     if (_form) {
+        alert(JSON.stringify(_form.inputs))
         _form.inputs.splice(inputid, 1)
+        alert(JSON.stringify(_form.inputs))
         forms[formid] = _form
+        renderInputs(_form)
     }
 }
